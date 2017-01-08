@@ -275,8 +275,8 @@ const std::string extract_instruction_from_line(const std::string & line) {
         opcode = line;
     }
 
-    // Remove the labl
-    while(!::isspace(opcode.front()) && opcode.size()>1) {
+    // Remove the label
+    while ( opcode.size()>0  && !::isspace(opcode.front())) {
         opcode.erase(opcode.begin());
     }
 
