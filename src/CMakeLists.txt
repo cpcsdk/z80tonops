@@ -17,3 +17,8 @@ target_compile_features(t PRIVATE cxx_digit_separators) # ensure we are using c+
 
 target_link_libraries(z80tonops libz80tonops)
 target_link_libraries(t libz80tonops)
+
+install(TARGETS z80tonops libz80tonops
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib)
