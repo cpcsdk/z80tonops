@@ -84,6 +84,7 @@ const std::string REGEX_WHITESPACES_OPTIONNAL{"[[:space:]]*"};
 const std::string REGEX_START{"^"};
 const std::string REGEX_END{"$"};
 
+const std::string PORT{"\\(C\\)"};
 
 const std::string VALUE{encode_possibilities({
         "[^()]+",
@@ -167,6 +168,7 @@ const std::vector< std::pair< std::pair<std::string, std::regex> , size_t> > lut
     {R(OP_LD, REG16_HL, MEM), 5},
     {R(OP_LD, REG16_SP, MEM), 6},
     {R(OP_LD, REG16_common, MEM), 6}, // XXX HL must be treated before
+    {R(OP_LD, REG16_common, VALUE), 3},
 
     {R(OP_LD, MEM_REG16_HL, VALUE), 3},
 
@@ -193,8 +195,10 @@ const std::vector< std::pair< std::pair<std::string, std::regex> , size_t> > lut
 
     // Logicial operations
     {R(encode_possibilities({OP_AND, OP_OR, OP_XOR}), REG8_common), 1},
-
     {R(encode_possibilities({"RRA", "RRCA", "RLA", "RLCA"})), 1},
+
+    // Port operations
+    {R(OP_OUT, PORT, REG8_common), 4}
 };
 
 
@@ -248,7 +252,6 @@ const std::string extract_instruction_from_line(const std::string & line) {
         std::transform(opcode.begin(), opcode.end(), opcode.begin(), ::toupper);
 
     }
-
     return opcode;
 }
 

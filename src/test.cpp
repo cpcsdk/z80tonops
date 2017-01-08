@@ -24,5 +24,15 @@ int main(int argc, char** argv) {
     T(" LD HL, (50)", 5);
     T(" LD BC, (50)", 6);
     T(" LD SP, (50)", 6);
+    T(" LD BC, 0xbc00 + 12", 3);
+    T(" LD HL, XXX", 3);
+    T(" OUT (C), C", 4);
+    T(" INC B", 1);
+    T(" OUT (C), H", 4);
+    T(" INC C", 1);
+    T(" DEC C", 1);
+    T(" OUT (C), C", 4);
+    T(" OUT (C), L", 4);
+  
 }
 
