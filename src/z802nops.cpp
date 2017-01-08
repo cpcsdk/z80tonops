@@ -138,19 +138,25 @@ constexpr auto regex_flags = icase | nosubs | ECMAScript ;
 
 auto R(const std::string & opcode) {
     const std::string line = REGEX_START + REGEX_WHITESPACES_OPTIONNAL + opcode + REGEX_END;
+#ifndef NDEBUG
     cerr << line << endl;
+#endif
     return std::make_pair(line, std::regex(line, regex_flags));
 }
 
 auto R(const std::string & opcode, const std::string & arg1) {
     const std::string line = REGEX_START + REGEX_WHITESPACES_OPTIONNAL + opcode + REGEX_WHITESPACES_MANDATORY +  arg1 + REGEX_WHITESPACES_OPTIONNAL + REGEX_END;
+#ifndef NDEBUG
     cerr << line << endl;
+#endif
     return std::make_pair(line, std::regex(line, regex_flags));
 }
 
 auto R(const std::string & opcode, const std::string & arg1, const std::string & arg2) {
     const std::string line = REGEX_START + REGEX_WHITESPACES_OPTIONNAL + opcode + REGEX_WHITESPACES_MANDATORY + arg1  + REGEX_WHITESPACES_OPTIONNAL + string(",") + REGEX_WHITESPACES_OPTIONNAL + arg2 + REGEX_WHITESPACES_OPTIONNAL + REGEX_END;
+#ifndef NDEBUG
     cerr << line << endl;
+#endif
     return std::make_pair(line, std::regex(line, regex_flags));
 }
 
