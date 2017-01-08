@@ -15,6 +15,37 @@
 namespace z80tonops {
 
 
+struct Timing {
+    size_t main, optionnal;
+
+    Timing(const size_t main): main{main}, optionnal{0} {
+    }
+
+    Timing(const size_t main, const size_t optionnal): main{main}, optionnal{optionnal} {
+    }
+
+
+    Timing() = delete;
+    Timing(const Timing &) = default;
+    ~Timing() = default;
+
+    /**
+     * By default, only the main duration is returned.
+     * Main depends on the type of instruction ...
+     */
+    operator size_t () const {
+        return main;
+    }
+
+
+    bool hasSimpleTiming() const {
+        return optionnal == 0;
+    }
+
+};
+
+
+
 /**
  * Extract the instruction from the line of interest
  */
@@ -24,7 +55,7 @@ const std::string extract_instruction_from_line(const std::string & line);
  * Compute the duration of the instruction.
  * Assumes ONLY the instruction is present on the string (no label, comment, start/end whitesapces)
  */
-size_t duration(const std::string & instruction);
+Timing duration(const std::string & instruction);
 
 /**
  * 1. read a stream of z80 code

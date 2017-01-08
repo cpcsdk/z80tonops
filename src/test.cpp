@@ -33,6 +33,6 @@ int main(int argc, char** argv) {
     T(" DEC C", 1);
     T(" OUT (C), C", 4);
     T(" OUT (C), L", 4);
-  
+
 }
 

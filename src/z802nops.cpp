@@ -1,4 +1,4 @@
-/**
+/*
  * @author Romain Giot <giot.romain@gmail.com>
  * @licence GPL
  * @date 01/2017
@@ -26,6 +26,7 @@
 #include <fstream>
 #include <cassert>
 
+#include "z802nops.h"
 #include "utils.h"
 
 using namespace std;
@@ -162,7 +163,7 @@ auto R(const std::string & opcode, const std::string & arg1, const std::string &
 
 
 // XXX Attention order is VERY important / an opcode can match several regexes...
-const std::vector< std::pair< std::pair<std::string, std::regex> , size_t> > lut{
+const std::vector< std::pair< std::pair<std::string, std::regex> , Timing> > lut{
     // Exchanges
     {R("EXX"), 1},
     {R("EX", REG16_HL, REG16_DE), 1},
@@ -210,7 +211,7 @@ const std::vector< std::pair< std::pair<std::string, std::regex> , size_t> > lut
 
 
 
-size_t duration(const std::string & instruction) {
+Timing duration(const std::string & instruction) {
     const size_t N = lut.size();
     std::smatch match;
     for(size_t i=0; i<N; ++i) {
