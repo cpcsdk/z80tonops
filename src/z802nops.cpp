@@ -1,4 +1,12 @@
 /**
+ * @author Romain Giot <giot.romain@gmail.com>
+ * @licence GPL
+ * @date 01/2017
+ */
+
+
+
+/**
  * Count the number of nops a SIMPLE z80 code can do
  * Limitations :
  * - do not take into account insttructions having 2 durations

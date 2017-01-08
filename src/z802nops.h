@@ -1,3 +1,11 @@
+/**
+ * @author Romain Giot <giot.romain@gmail.com>
+ * @licence GPL
+ * @date 01/2017
+ */
+
+
+
 #include <string>
 #include <regex>
 #include <vector>

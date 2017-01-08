@@ -1,3 +1,9 @@
+/**
+ * @author Romain Giot <giot.romain@gmail.com>
+ * @licence GPL
+ * @date 01/2017
+ */
+
 #include "z802nops.h"
 #include <fstream>
 #include <iostream>
