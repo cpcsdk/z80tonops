@@ -61,6 +61,8 @@ const std::string REG16_IX{"IX"};
 const std::string REG16_IY{"IY"};
 const std::string REG16_SP{"SP"};
 
+const std::string OP_JR{"JR"};
+const std::string OP_JP{"JP"};
 
 const std::string OP_ADD{"ADD"};
 const std::string OP_DEC{"DEC"};
@@ -71,6 +73,21 @@ const std::string OP_OUT{"OUT"};
 const std::string OP_AND{"AND"};
 const std::string OP_OR{"OR"};
 const std::string OP_XOR{"XOR"};
+
+
+const std::string COND_Z{"Z"};
+const std::string COND_NZ{"NZ"};
+const std::string COND_C{"C"};
+const std::string COND_NC{"NC"};
+const std::string COND_P{"P"};
+const std::string COND_PE{"PE"};
+const std::string COND_PO{"PO"};
+
+const std::string COND_all{encode_possibilities({
+        COND_Z, COND_NZ,
+        COND_C, COND_NC,
+        COND_P, COND_PE, COND_PO
+    })};
 
 const std::string TEXT_PARENTHESIS_LEFT{"\\("};
 const std::string TEXT_PARENTHESIS_RIGHT{"\\)"};
@@ -134,6 +151,8 @@ const std::string MEM_REG16_common{encode_possibilities({
     })};
 
 const std::string MEM_REG16_HL = encode_mem_register(REG16_HL);
+const std::string MEM_REG16_IX = encode_mem_register(REG16_IX);
+const std::string MEM_REG16_IY = encode_mem_register(REG16_IY);
 
 constexpr auto regex_flags = icase | nosubs | ECMAScript ;
 
@@ -205,7 +224,17 @@ const std::vector< std::pair< std::pair<std::string, std::regex> , Timing> > lut
     {R(encode_possibilities({"RRA", "RRCA", "RLA", "RLCA"})), 1},
 
     // Port operations
-    {R(OP_OUT, PORT, REG8_common), 4}
+    {R(OP_OUT, PORT, REG8_common), 4},
+
+    // Jump
+    {R(OP_JP, VALUE), 3},
+    {R(OP_JP, COND_all, VALUE), 3},
+    {R(OP_JP, MEM_REG16_HL), 1},
+    {R(OP_JP, MEM_REG16_IX), 2},
+    {R(OP_JP, MEM_REG16_IY), 2},
+
+    {R(OP_JR, VALUE), 3},
+
 };
 
 
