@@ -10,9 +10,11 @@
 #include <string>
 #include <iostream>
 
-void T(const std::string & opcode, size_t nops) {
-    std::cerr << "Opcode: " << opcode << " Duration: " << z80tonops::duration(opcode) << " Expected: " <<nops << std::endl;
-    assert(z80tonops::duration(opcode) == nops);
+void T(const std::string & opcode, z80tonops::Timing nops) {
+    const z80tonops::Timing duration = z80tonops::duration(opcode);
+    std::cerr << "Opcode: " << opcode << " Duration: " << static_cast<std::string>(duration) << " Expected: " << static_cast<std::string>(nops) << std::endl;
+    assert(duration == nops);
+    assert(duration.hasSimpleTiming() == nops.hasSimpleTiming());
 }
 
 
@@ -33,6 +35,7 @@ int main(int argc, char** argv) {
     T(" DEC C", 1);
     T(" OUT (C), C", 4);
     T(" OUT (C), L", 4);
-
+    T(" JR XXX", 3);
+    T(" JR C, XXX", {3,2});
 }
 
