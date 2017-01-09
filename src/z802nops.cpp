@@ -105,9 +105,9 @@ const std::string REGEX_END{"$"};
 const std::string PORT{"\\(C\\)"};
 
 const std::string VALUE{encode_possibilities({
-        "[^()]+",
-        string("\\(.*[^)]"),
-        string("[^(].*\\)")
+        "[^(),]+",
+        string("\\([^,]*[^)]"),
+        string("[^(][^,]*\\)")
     })}; // XXX This regex seems buggy
 const std::string MEM {
     TEXT_PARENTHESIS_LEFT+ ".+" + TEXT_PARENTHESIS_RIGHT
