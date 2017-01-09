@@ -37,12 +37,12 @@ struct Timing {
         return main;
     }
     operator std::string() const {
-        if (hasSimpleTiming()){
-		return std::to_string(main);
-	}
-	else{
-		return std::to_string(main) + "/" + std::to_string(optionnal);
-	};
+        if (hasSimpleTiming()) {
+            return std::to_string(main);
+        }
+        else {
+            return std::to_string(main) + "/" + std::to_string(optionnal);
+        };
     }
 
 

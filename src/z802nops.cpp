@@ -127,13 +127,13 @@ const std::string encode_mem_register(const std::string & reg) {
 
 
 const std::string COND_all{encode_possibilities({
-        COND_Z, 
-	COND_NZ,
-        COND_C, 
-	COND_NC,
-        COND_P, 
-	COND_PE, 
-	COND_PO
+        COND_Z,
+        COND_NZ,
+        COND_C,
+        COND_NC,
+        COND_P,
+        COND_PE,
+        COND_PO
     })};
 const std::string REG8_common{encode_possibilities({
         REG8_A,
@@ -311,25 +311,25 @@ void treat_stream(istream & stream, ostream & cout) {
         const std::string opcode = extract_instruction_from_line(line);
         if (opcode.size() > 0) {
 
-		// Get the amount of nops
-		const Timing current_nops = duration(opcode);
+            // Get the amount of nops
+            const Timing current_nops = duration(opcode);
 
-		if (0 == current_nops) {
-			cout << line << endl;
-			// XXX TODO Extract the number of nops from the comment if any
-		}
-		else if ( current_nops.hasSimpleTiming()){
-			total_nops += current_nops.main;
-			cout << line << "  ; " << current_nops.main << " nops" << endl;
-		}
-		else {
-			total_nops += current_nops;
-			cout << line << "  ; " << current_nops.main << "(or " << current_nops.optionnal << ") nops" << endl;
-		}
-	}
-	else {
-		cout << line << endl;
-	}
+            if (0 == current_nops) {
+                cout << line << endl;
+                // XXX TODO Extract the number of nops from the comment if any
+            }
+            else if ( current_nops.hasSimpleTiming()) {
+                total_nops += current_nops.main;
+                cout << line << "  ; " << current_nops.main << " nops" << endl;
+            }
+            else {
+                total_nops += current_nops;
+                cout << line << "  ; " << current_nops.main << "(or " << current_nops.optionnal << ") nops" << endl;
+            }
+        }
+        else {
+            cout << line << endl;
+        }
     }
     cout << "; STOP COUNTING" << endl;
     cout << "; Total number of nops = " << total_nops << endl;
