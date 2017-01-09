@@ -233,6 +233,7 @@ const std::vector< std::pair< std::pair<std::string, std::regex> , Timing> > lut
     {R(OP_JP, MEM_REG16_IX), 2},
     {R(OP_JP, MEM_REG16_IY), 2},
 
+    {R(OP_JR, COND_all, VALUE), {3,2}},
     {R(OP_JR, VALUE), 3},
 
 };
@@ -300,19 +301,28 @@ void treat_stream(istream & stream, ostream & cout) {
     // XXX Amazing in 2017 that string manipulation is so shitty ...
     while (std::getline(stream, line)) {
         // Remove the comment
-        auto idx = line.find(";");
         const std::string opcode = extract_instruction_from_line(line);
         if (opcode.size() > 0) {
 
-            // Get the amount of nops
-            const size_t current_nops = duration(opcode);
+		// Get the amount of nops
+		const Timing current_nops = duration(opcode);
 
-            total_nops += current_nops;
-            cout << line << "  ; " << current_nops << " nops" << endl;
-        }
-        else {
-            cout << line << endl;
-        }
+		if (0 == current_nops) {
+			cout << line << endl;
+			// XXX TODO Extract the number of nops from the comment if any
+		}
+		else if ( current_nops.hasSimpleTiming()){
+			total_nops += current_nops.main;
+			cout << line << "  ; " << current_nops.main << " nops" << endl;
+		}
+		else {
+			total_nops += current_nops;
+			cout << line << "  ; " << current_nops.main << "(or " << current_nops.optionnal << ") nops" << endl;
+		}
+	}
+	else {
+		cout << line << endl;
+	}
     }
     cout << "; STOP COUNTING" << endl;
     cout << "; Total number of nops = " << total_nops << endl;
