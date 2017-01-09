@@ -83,11 +83,7 @@ const std::string COND_P{"P"};
 const std::string COND_PE{"PE"};
 const std::string COND_PO{"PO"};
 
-const std::string COND_all{encode_possibilities({
-        COND_Z, COND_NZ,
-        COND_C, COND_NC,
-        COND_P, COND_PE, COND_PO
-    })};
+
 
 const std::string TEXT_PARENTHESIS_LEFT{"\\("};
 const std::string TEXT_PARENTHESIS_RIGHT{"\\)"};
@@ -128,6 +124,17 @@ const std::string encode_mem_register(const std::string & reg) {
     return TEXT_PARENTHESIS_LEFT + REGEX_WHITESPACES_OPTIONNAL + reg + REGEX_WHITESPACES_OPTIONNAL + TEXT_PARENTHESIS_RIGHT;
 }
 
+
+
+const std::string COND_all{encode_possibilities({
+        COND_Z, 
+	COND_NZ,
+        COND_C, 
+	COND_NC,
+        COND_P, 
+	COND_PE, 
+	COND_PO
+    })};
 const std::string REG8_common{encode_possibilities({
         REG8_A,
         REG8_B,
