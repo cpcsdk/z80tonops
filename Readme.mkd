@@ -12,7 +12,7 @@ However, these limitations could be removed if necessary
 ## Compilation
 
 ```bash
-git clone https://github.com/rgiot/z80tonops.git
+git clone https://github.com/cpcsdk/z80tonops.git
 mkdir build && cd build
 cmake ../z80tonops/src
 make && sudo make install
