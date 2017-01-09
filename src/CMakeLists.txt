@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project (z80tonops CXX)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra ")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra -DNDEBUG")
 
 
 add_library(libz80tonops z802nops.cpp z802nops.h utils.h)

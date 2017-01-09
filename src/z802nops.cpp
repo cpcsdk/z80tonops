@@ -318,13 +318,9 @@ void treat_stream(istream & stream, ostream & cout) {
                 cout << line << endl;
                 // XXX TODO Extract the number of nops from the comment if any
             }
-            else if ( current_nops.hasSimpleTiming()) {
-                total_nops += current_nops.main;
-                cout << line << "  ; " << current_nops.main << " nops" << endl;
-            }
             else {
                 total_nops += current_nops;
-                cout << line << "  ; " << current_nops.main << "(or " << current_nops.optionnal << ") nops" << endl;
+                cout << line << "  ; " << static_cast<std::string>(current_nops) << " nops" << endl;
             }
         }
         else {
