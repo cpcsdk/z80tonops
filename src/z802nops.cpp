@@ -74,6 +74,13 @@ const std::string OP_AND{"AND"};
 const std::string OP_OR{"OR"};
 const std::string OP_XOR{"XOR"};
 
+const std::string OP_SLA{"SLA"};
+const std::string OP_SLL{"SLL"};
+const std::string OP_SRA{"SRA"};
+const std::string OP_SRL{"SRL"};
+
+
+const std::string OP_RET{"RET"};
 
 const std::string COND_Z{"Z"};
 const std::string COND_NZ{"NZ"};
@@ -230,6 +237,9 @@ const std::vector< std::pair< std::pair<std::string, std::regex> , Timing> > lut
     {R(encode_possibilities({OP_AND, OP_OR, OP_XOR}), REG8_common), 1},
     {R(encode_possibilities({"RRA", "RRCA", "RLA", "RLCA"})), 1},
 
+    // Shift/rotations
+    {R(encode_possibilities({OP_SLA, OP_SRA, OP_SRL, OP_SLL}), REG8_common), 2},
+
     // Port operations
     {R(OP_OUT, PORT, REG8_common), 4},
 
@@ -242,6 +252,9 @@ const std::vector< std::pair< std::pair<std::string, std::regex> , Timing> > lut
 
     {R(OP_JR, COND_all, VALUE), {3,2}},
     {R(OP_JR, VALUE), 3},
+
+    // Call
+   {R(OP_RET), 3}
 
 };
 
@@ -299,10 +312,17 @@ const std::string extract_instruction_from_line(const std::string & line) {
     return opcode;
 }
 
+Timing extract_nops_from_comment(const std::string z80_line) {
+    static const std::regex nops_in_comment(".*;.*[[:digit:]]+[[:space:]]*nops", icase);
+ // XXX match line to regex, extract string number, extract it (or return 0)
+}
+
 void treat_stream(istream & stream, ostream & cout) {
     std::string line;
     size_t total_nops = 0;
 
+
+	
     cout << "; START COUNTING" << endl;
 
     // XXX Amazing in 2017 that string manipulation is so shitty ...
@@ -317,6 +337,7 @@ void treat_stream(istream & stream, ostream & cout) {
             if (0 == current_nops) {
                 cout << line << endl;
                 // XXX TODO Extract the number of nops from the comment if any
+		//extract_nops_from_comment
             }
             else {
                 total_nops += current_nops;
