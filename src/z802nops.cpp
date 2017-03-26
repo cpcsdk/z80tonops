@@ -65,10 +65,14 @@ const std::string OP_JR{"JR"};
 const std::string OP_JP{"JP"};
 
 const std::string OP_ADD{"ADD"};
+const std::string OP_ADC{"ADC"};
+const std::string OP_CP{"CP"};
 const std::string OP_DEC{"DEC"};
 const std::string OP_INC{"INC"};
 const std::string OP_LD{"LD"};
 const std::string OP_OUT{"OUT"};
+const std::string OP_SBC{"SBC"};
+const std::string OP_SUB{"SUB"};
 
 const std::string OP_AND{"AND"};
 const std::string OP_OR{"OR"};
@@ -132,6 +136,28 @@ const std::string encode_mem_register(const std::string & reg) {
 }
 
 
+const std::string MEM_INDEX{encode_possibilities({
+        encode_mem_register(REG16_IX + REGEX_WHITESPACES_OPTIONNAL + "+" + VALUE),
+        encode_mem_register(REG16_IY + REGEX_WHITESPACES_OPTIONNAL + "+" + VALUE),
+        })
+};
+
+
+const std::string OP_INC_DEC{encode_possibilities({
+        OP_INC,
+        OP_DEC
+        })};
+
+const std::string OP_BINARY_all{encode_possibilities({
+        OP_ADD,
+        OP_ADC,
+        OP_AND,
+        OP_CP,
+        OP_OR,
+        OP_SBC,
+        OP_SUB,
+        OP_XOR
+        })};
 
 const std::string COND_all{encode_possibilities({
         COND_Z,
@@ -142,6 +168,7 @@ const std::string COND_all{encode_possibilities({
         COND_PE,
         COND_PO
     })};
+
 const std::string REG8_common{encode_possibilities({
         REG8_A,
         REG8_B,
@@ -151,6 +178,14 @@ const std::string REG8_common{encode_possibilities({
         REG8_H,
         REG8_L
     })};
+
+const std::string REG8_indexes{encode_possibilities({
+        REG8_IYH,
+        REG8_IYL,
+        REG8_IXH,
+        REG8_IXL
+    })};
+
 const std::string REG16_common{encode_possibilities({
         REG16_AF,
         REG16_BC,
@@ -202,6 +237,12 @@ const std::vector< std::pair< std::pair<std::string, std::regex> , Timing> > lut
     {R("EX", REG16_HL, REG16_DE), 1},
     {R("EX", REG16_AF, REG16_AF + REGEX_WHITESPACES_OPTIONNAL + std::string("'")), 1},
 
+
+    // Indexes registers
+    {R(OP_BINARY_all, MEM_INDEX), 5},
+    {R(OP_INC_DEC, MEM_INDEX), 6},
+    {R(OP_INC_DEC, REG8_indexes), 2},
+
     // LD 16 bits
 
     {R(OP_LD, REG8_A, MEM_REG16_common), 2},
@@ -225,10 +266,8 @@ const std::vector< std::pair< std::pair<std::string, std::regex> , Timing> > lut
     {R(OP_LD, REG8_common, VALUE), 2},
 
     // INC/DEC
-    {R(OP_INC,REG16_common), 2},
-    {R(OP_INC,REG8_common), 1},
-    {R(OP_DEC,REG16_common), 2},
-    {R(OP_DEC,REG8_common), 1},
+    {R(OP_INC_DEC,REG16_common), 2},
+    {R(OP_INC_DEC,REG8_common), 1},
 
     // ADD
     {R(OP_ADD, MEM_REG16_HL), 2},
