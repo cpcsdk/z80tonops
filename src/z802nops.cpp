@@ -83,6 +83,8 @@ const std::string OP_SLL{"SLL"};
 const std::string OP_SRA{"SRA"};
 const std::string OP_SRL{"SRL"};
 
+const std::string OP_PUSH{"PUSH"};
+const std::string OP_POP{"POP"};
 
 const std::string OP_RET{"RET"};
 
@@ -192,6 +194,12 @@ const std::string REG16_common{encode_possibilities({
         REG16_DE,
         REG16_HL
     })};
+
+const std::string REG16_indexed{encode_possibilities({
+        REG16_IX,
+        REG16_IY
+    })};
+
 const std::string MEM_REG16_common{encode_possibilities({
         encode_mem_register(REG16_AF),
         encode_mem_register(REG16_BC),
@@ -268,6 +276,12 @@ const std::vector< std::pair< std::pair<std::string, std::regex> , Timing> > lut
     // INC/DEC
     {R(OP_INC_DEC,REG16_common), 2},
     {R(OP_INC_DEC,REG8_common), 1},
+
+    // PUSH/POP
+    {R(OP_PUSH, REG16_common), 4},
+    {R(OP_PUSH, REG16_indexed), 5},
+    {R(OP_POP, REG16_common), 3},
+    {R(OP_POP, REG16_indexed), 4},
 
     // ADD
     {R(OP_ADD, MEM_REG16_HL), 2},
@@ -361,7 +375,6 @@ void treat_stream(istream & stream, ostream & cout) {
     size_t total_nops = 0;
 
 
-	
     cout << "; START COUNTING" << endl;
 
     // XXX Amazing in 2017 that string manipulation is so shitty ...
